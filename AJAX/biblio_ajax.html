@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Biblio AJAX</title>
+</head>
+    <script type="text/javascript">
+        function inviaRichiesta() {
+            var isbn = document.getElementById('isbn').value;
+            var server = 'biblio.php?isbn='+isbn;
+            richiesta = new XMLHttpRequest();
+            richiesta.onreadystatechange = gestisciRisposta;
+            richiesta.open('GET', server, true);
+            richiesta.send(null);
+        }
+
+        function gestisciRisposta() {
+            //Se la risposta è stata ricevuta e il codice restituito dal Server è OK..
+            if ((richiesta.readyState == 4) && (richiesta.status == 200)) {
+                var risposta = JSON.parse(richiesta.responseText);
+                var titolo = document.getElementById('titolo');
+                titolo.innerHTML = risposta.titolo;
+                var data_ins = document.getElementById('data_ins');
+                data_ins.innerHTML = risposta.data_ins;
+                var num_pagine = document.getElementById('num_pagine');
+                num_pagine.innerHTML = risposta.num_pagine;
+                var editore = document.getElementById('editore');
+                editore.innerHTML = risposta.editore;
+                var elenco = document.getElementById('elenco');
+                elenco.innerHTML = '';
+                for(var i in risposta.autori) {
+                    elenco.innerHTML += risposta.autori[i].nome + ' ' + risposta.autori[i].cognome + '<br>';
+                }
+            }
+        }
+    </script>
+<body>
+    <label>ISBN:</label>
+    <input name="isbn" type="text" id="isbn" onblur="inviaRichiesta();"/>
+
+    <table>
+        <tr>
+            <td>Titolo: </td><td><span id="titolo"></span></td>
+        </tr>
+        <tr>
+            <td>Data_ins: </td><td><span id="data_ins"></span></td>
+        </tr>
+        <tr>
+            <td>Num_pagine: </td><td><span id="num_pagine"></span></td>
+        </tr>
+        <tr>
+            <td>Editore: </td><td><span id="editore"></span></td>
+        </tr>
+        <tr>
+            <td>Autori: </td><td><span id="elenco"></span></td>
+        </tr>
+    </table>
+</body>
+</html>

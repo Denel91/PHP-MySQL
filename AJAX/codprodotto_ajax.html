@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Codice Prodotto AJAX</title>
+</head>
+    <script type="text/javascript">
+        function inviaRichiesta() {
+            var codice = document.getElementById('codprodotto').value;
+            var server = 'prezzo.php?codprodotto='+codice;
+            richiesta = new XMLHttpRequest();
+            richiesta.onreadystatechange = gestisciRisposta;
+            richiesta.open('GET', server, true);
+            richiesta.send(null);
+        }
+
+        function gestisciRisposta() {
+            //Se la risposta è stata ricevuta e il codice restituito dal Server è OK..
+            if ((richiesta.readyState == 4) && (richiesta.status == 200)) {
+                var risposta = richiesta.responseText;
+                var prezzo = document.getElementById('prezzo');
+                prezzo.innerHTML = risposta;
+            }
+        }
+    </script>
+<body>
+    <label>COD Prodotto:</label>
+    <input name="prodotto" type="text" id="codprodotto" onblur="inviaRichiesta();"/>
+        <div id="prezzo"></div>
+</body>
+</html>

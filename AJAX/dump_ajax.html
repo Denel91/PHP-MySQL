@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ISBN AJAX</title>
+</head>
+    <script type="text/javascript">
+        function inviaRichiesta() {
+            var isbn = document.getElementById('id').value;
+            var server = 'dump.php?isbn='+isbn;
+            richiesta = new XMLHttpRequest();
+            richiesta.onreadystatechange = gestisciRisposta;
+            richiesta.open('GET', server, true);
+            richiesta.send(null);
+        }
+
+        function gestisciRisposta() {
+            //Se la risposta è stata ricevuta e il codice restituito dal Server è OK..
+            if ((richiesta.readyState == 4) && (richiesta.status == 200)) {
+                var risposta = JSON.parse(richiesta.responseText);
+                var titolo = document.getElementById('titolo');
+                titolo.innerHTML = risposta.titolo;
+            }
+        }
+    </script>
+<body>
+    <label>ISBN:</label>
+    <input name="isbn" type="text" id="id" onblur="inviaRichiesta();"/>
+        <div id="titolo"></div>
+</body>
+</html>

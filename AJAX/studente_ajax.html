@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Studente Ajax</title>
+</head>
+    <script type="text/javascript">
+
+        function inviaRichiesta() {
+            var matricola = document.getElementById('mat').value;
+            var server = 'studente.php?matricola='+matricola;
+            richiesta = new XMLHttpRequest();
+            richiesta.onreadystatechange = gestisciRisposta;
+            richiesta.open("GET", server, true);
+            richiesta.send(null);
+        }
+
+        function gestisciRisposta() {
+            //Se la risposta è stata ricevuta e il codice restituito dal Server è OK..
+            if ((richiesta.readyState == 4) && (richiesta.status == 200)) {
+                var risposta = JSON.parse(richiesta.responseText);
+                var nome = document.getElementById('nome');
+                var cognome = document.getElementById('cognome');
+                var data_nascita = document.getElementById('data_nascita');
+                var corso = document.getElementById('corso');
+                nome.innerHTML = risposta.nome;
+                cognome.innerHTML = risposta.cognome;
+                data_nascita.innerHTML = risposta.data_nascita;
+                corso.innerHTML = risposta.corso;
+            }
+        }
+    </script>
+<body>
+    <label>Matricola:</label>
+    <input name="matricola" type="text" id="mat" onblur="inviaRichiesta();"/>
+        <div id="nome"></div>
+        <div id="cognome"></div>
+        <div id="data_nascita"></div>
+        <div id="corso"></div>
+</body>
+</html>
