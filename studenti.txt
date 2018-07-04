@@ -1,0 +1,3 @@
+123456:Mario:Rossi:1985/07/02:Informatica
+323758:Matteo:Verdi:1987/04/01:Lettere e Filosofia
+639745:Elena:Bianchi:1989/10/27:Internet of Things
